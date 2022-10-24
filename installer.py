@@ -90,6 +90,7 @@ class Downloader:
                 break
             if self.exit_now:
                 self.window.close()
+                exit()
 
             # Set step, which is arbitrary
             self.step = "Step " + str(self.set_step) + " of 7"
@@ -154,8 +155,7 @@ class Downloader:
                     # Attempt unzip if the file exists
                     if ".zip" in websites[self.current_file_index].file_name:
                         try:
-                            print("Unzipping" + " " + websites[self.current_file_index].file_name)
-                            self.set_message("Unzipping" + " " + websites[self.current_file_index].file_name + "...")
+                            self.set_message("Press NEXT to unzip" + " " + websites[self.current_file_index].file_name + "...")
                             zipfile.ZipFile(websites[self.current_file_index].file_name).extractall()
                         except RuntimeError:
                             continue
@@ -204,13 +204,12 @@ class Downloader:
             # Step 6: Launch
             if self.set_step == 7:   
                 self.set_message("Choose Palpatine Total Converter from the Game Launcher window to start.\nChoose Load a Total Conversion, and then:\n1. TFTC Classic for the original story, remastered\n2. TFTC Reimagined for 8+ new campaigns.\nEnjoy!")
-                os.startfile("TFTC_1.3.2.exe")
+                os.startfile("XwingAlliance.exe")
                 self.exit_now
 
         self.window.close()
 
-
 if "__main__":
-    websites = [Website("https://www.xwaupgrade.com/download/installers/XWAU2020.exe", "XWAU2020.exe", "X-Wing Alliance Upgrade main patch", "Updating thousands of surfaces, textures, and ship models to achieve higher detail."), Website("https://www.moddb.com/mods/tie-fighter-total-conversion-tftc/downloads/tie-fighter-total-conversion-tftc-v13-full-patch", "TFTC_1.3.zip", "TIE Fighter Total Conversion (TFTC) v1.3 Full Version", "Downloading thousands of new models, scripts, and events."), Website("https://www.moddb.com/mods/tie-fighter-total-conversion-tftc/downloads/tftc-1-3-2", "TFTC_1.3.2.zip", "TIE Fighter Total Conversion (TFTC) 1.3.2 Patch", "Patching up to the newest possible version.")]
+    websites = [Website("https://www.xwaupgrade.com/download/installers/XWAU2020.exe", "XWAU2020.exe", "X-Wing Alliance Upgrade main patch", "This update will provide thousands of surfaces, textures, and ship models to achieve higher detail."), Website("https://www.moddb.com/mods/tie-fighter-total-conversion-tftc/downloads/tie-fighter-total-conversion-tftc-v13-full-patch", "TFTC_1.3.zip", "TIE Fighter Total Conversion (TFTC) v1.3 Full Version", "Press NEXT to download the core update with thousands of new models, scripts, and events."), Website("https://www.moddb.com/mods/tie-fighter-total-conversion-tftc/downloads/tftc-1-3-2", "TFTC_1.3.2.zip", "TIE Fighter Total Conversion (TFTC) 1.3.2 Patch", "Press NEXT to download the patch up to the newest possible version.")]
     downloader = Downloader()
     downloader.run()
