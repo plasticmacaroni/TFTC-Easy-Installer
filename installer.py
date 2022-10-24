@@ -210,6 +210,9 @@ class Downloader:
                 os.startfile("alliance.exe")
                 self.exit_now
 
+            if self.set_step > 7:
+                exit()
+
         self.window.close()
 
 if "__main__":
