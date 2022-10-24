@@ -104,9 +104,10 @@ class Downloader:
                     self.needs_OK_to_continue = False
 
             # Step 1: Check if running from game folder and set flag
+            self.set_message("Verifying game installation, press NEXT to continue...")
             if self.set_step == 1:
                 if self.folder_checked_flag == False:
-                    if not os.path.exists("XwingAlliance.exe"):
+                    if not os.path.exists("alliance.exe"):
                         self.set_message("It's not recommended to run outside of the game folder, are you sure?\nIf you haven't downloaded X-Wing Alliance from GOG, Steam, or Origin, please do so and run this program from within the game folder.")
                         self.needs_OK_to_continue = True
                     self.folder_checked_flag = True
@@ -126,15 +127,17 @@ class Downloader:
 
                     # Make sure it's been run once
                     # TODO
+                self.set_message("Location and space are correct, press NEXT to continue")
                 self.set_step += 1
                 continue
 
             # Step 3: Download necessary files (current_file_index variable)
             if self.set_step == 3:
+                self.set_message("Confirming necessary files are downloaded, press NEXT to continue...")
                 # If we're requesting an index out of range, great, we've already requested it all
                 if not self.current_file_index >= len(websites):
                     if not os.path.isfile(websites[self.current_file_index].file_name):
-                        self.set_message("Downloading " + websites[self.current_file_index].description + ": " + websites[self.current_file_index].file_name + "\n"+ websites[self.current_file_index].download_message +"\n" + "This may take quite a bit, so leave this window open and grab a cup of tea...")
+                        self.set_message("Downloading " + websites[self.current_file_index].description + ": " + websites[self.current_file_index].file_name + "\n"+ websites[self.current_file_index].download_message +"\n" + "This may spin for quite a bit, so leave this window open and grab a cup of tea...")
                         try:
                             self.download_file(websites[self.current_file_index].url, websites[self.current_file_index].file_name)
                         except Exception as exc:
@@ -201,7 +204,7 @@ class Downloader:
                 self.set_step += 1
                 continue
 
-            # Step 6: Launch
+            # Step 7: Launch
             if self.set_step == 7:   
                 self.set_message("Choose Palpatine Total Converter from the Game Launcher window to start.\nChoose Load a Total Conversion, and then:\n1. TFTC Classic for the original story, remastered\n2. TFTC Reimagined for 8+ new campaigns.\nEnjoy!")
                 os.startfile("XwingAlliance.exe")
