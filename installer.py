@@ -207,7 +207,7 @@ class Downloader:
             # Step 7: Launch
             if self.set_step == 7:   
                 self.set_message("Choose Palpatine Total Converter from the Game Launcher window to start.\nChoose Load a Total Conversion, and then:\n1. TFTC Classic for the original story, remastered\n2. TFTC Reimagined for 8+ new campaigns.\nEnjoy!")
-                os.startfile("XwingAlliance.exe")
+                os.startfile("alliance.exe")
                 self.exit_now
 
         self.window.close()
