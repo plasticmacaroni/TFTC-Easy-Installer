@@ -8,7 +8,7 @@ To use:
 
 **It will also check that you have enough space to download and that you're running from the right place.**
 
-## Works as of patch 1.3.2
+## Updated as of patch 1.3.2
 
 This installer performs several steps:
 
@@ -16,8 +16,9 @@ This installer performs several steps:
 2. Check if there's more than 50 GB on the main drive
 3. Confirm each downloaded zip file matches the filesize listed on the servers
 
-## To create an executable file, install pysimplegui with "pip3 install pysimplegui" and then run:
+## Running the script
 
+If you'd like to run it as an executable file, you can install pysimplegui with "pip3 install pysimplegui" and then run:
 `python -m pysimplegui-exemaker.pysimplegui-exemaker`
 
 Running the python script from within the game installation folder also works. Make sure to launch the game once before running the script/exe!
