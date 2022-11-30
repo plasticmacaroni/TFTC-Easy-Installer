@@ -2,7 +2,7 @@
 
 To use:
 
-1. Download the script into your game folder
+1. Download the script and its files into your game folder
 2. Run it and it will download each required mod (XWAU, TFTC 1.3, TFTC 1.3.2, as well as all patches on the [Quick Fixes official page](https://sites.google.com/view/tie-fighter-total-conversion/installation/quick-fixes)
 3. It will automatically open and start the required installers for you to complete, recommending settings as you go
 4. Checks if you have run the game at least once
