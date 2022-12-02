@@ -1,25 +1,25 @@
-# MVP of TFTC Easy Installer
+# TFTC Easy Installer
 
-To use:
+## What does this do?!
+This tool makes installing TFTC easy! While we still recommend the most recent [Youtube Video](https://www.youtube.com/watch?v=qui9X4gjVtc) outlining installation steps for TFTC, **bottom line: if you want to get right to the action, this tool can be used to download everything you need!**
 
-1. Download the script and its files into your game folder
-2. Run it and it will download each required mod (XWAU, TFTC 1.3, TFTC 1.3.2, as well as all patches on the [Quick Fixes official page](https://sites.google.com/view/tie-fighter-total-conversion/installation/quick-fixes)
-3. It will automatically open and start the required installers for you to complete, recommending settings as you go
-4. Checks if you have run the game at least once
+## But what does it *do*?!
+1. Checks that your install location, space available, and environment are correct
+2. Automagically download every installer you'll need to get into the cockpit ASAP
+3. Run each upgrade and installer (there are several!) in the correct order, suggesting recommended settings for each
+4. Verify downloaded files, and that installations are successful
+5. Let you know you're ready to fly!
 
-**It will also check that you have enough space to download and that you're running from the right place.**
+## How to run the tool!
+Steps to type in if you're unfamiliar with Python:
 
-## Updated as of patch 1.3.2
+Have X-Wing Alliance installed from Steam, GOG, or Origin. Have Python installed.
 
-This installer performs several other steps:
-
-1. Check if the game executable is in the current folder
-2. Check if there's more than 50 GB on the main drive
-3. Confirm each downloaded zip file matches the filesize listed on the servers
+Run the tool by following the steps below:
+1. ```git clone https://github.com/plasticmacaroni/TFTC-Easy-Installer.git```
+2. ```pip install -r requirements.txt```
+3. ```python easy-installer.py```
 
 ## Running the script as an exe
-
-If you'd like to run it as an executable file, you can install pysimplegui with "pip3 install pysimplegui" and then run:
+If you'd like to run it as an executable file, you can install pysimplegui with `pip3 install pysimplegui` and then run:
 `python -m pysimplegui-exemaker.pysimplegui-exemaker`
-
-Running the python script from within the game installation folder does work fine. 
