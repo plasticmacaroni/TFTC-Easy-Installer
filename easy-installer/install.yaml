@@ -39,7 +39,7 @@ ordered_downloads:
       check: 
         - after_install_file_or_dir: "TFTCversion.txt"
         - file_content: "1.3.2"
-  - website:
+  - website: 
       download_URL: "https://raw.github.com/JeremyAnsel/XwaHooksSetup/master/XwaHooksSetup/zip/XwaHooksSetup.zip"
       file_name: "XwaHooksSetup.zip"
       description: "Hooks to allow additional control over game assets and functions"

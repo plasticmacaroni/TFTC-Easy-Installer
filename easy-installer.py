@@ -45,7 +45,7 @@ class Downloader:
     def set_message(self, message):
         #update the step while we're at it
         step = self.index
-        if step == 0:
+        if step == 0: 
             step = 1
         self.step = "Step " + str(step) + " of " + str(len(self.install_config["ordered_downloads"])-1)
         self.window.Element("STEP").update(self.step)
