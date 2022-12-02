@@ -196,9 +196,9 @@ class Downloader:
                                 # if we find the file itself but not the 'is_installed' checks, we must still install it
                                 if os.path.exists(website["file_name"]):
                                     if "installation_hint" in website.keys():
-                                        self.set_message("Please complete the " + website["installer"]  + " executable install process. This window will automatically continue when the installer closes.\n\n" + website["installation_hint"])
+                                        self.set_message("Please complete the " + website["file_name"]  + " executable install process. This window will automatically continue when the installer closes.\n\n" + website["installation_hint"])
                                     else:
-                                        self.set_message("Please complete the " + website["installer"]  + " executable install process. This window will automatically continue when the installer closes.")
+                                        self.set_message("Please complete the " + website["file_name"]  + " executable install process. This window will automatically continue when the installer closes.")
                                     if "installer" in website.keys():
                                         if not os.path.exists(website["installer"]):
                                             print("Couldn't find " + website["installer"] + "...")
