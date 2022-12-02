@@ -47,7 +47,7 @@ class Downloader:
         step = self.index
         if step == 0:
             step = 1
-        self.step = "Step " + str(step) + " of " + str(len(self.install_config["ordered_downloads"]))
+        self.step = "Step " + str(step) + " of " + str(len(self.install_config["ordered_downloads"])-1)
         self.window.Element("STEP").update(self.step)
         #update the message
         self.window.Element("MAIN_MESSAGE").update(message)
@@ -118,7 +118,6 @@ class Downloader:
                                 available_disk_in_gb = available_disk / 1073741824
                                 if available_disk_in_gb < int(value["disk_space"]):
                                     self.set_message("Recommended 50 GB minimum space to install, are you sure you want to continue?")
-                                    #TODO pause here and update step or exit according to response
                                 else:
                                     self.set_message("Has ample space...")
                             
@@ -128,6 +127,7 @@ class Downloader:
                                     # if above condition (must_exist file not found), then show the correct error message
                                     self.set_message(value[0]["if_no"])
                                 if "must_exist_file_ending" in value[0]:
+                                    #perform the same check and error if the file must have a specific ending
                                     result = [x for x in os.listdir() if len(x) >= len(value[0]["must_exist_file_ending"]) and x[-len(value[0]["must_exist_file_ending"]):].lower() == value[0]["must_exist_file_ending"].lower()]
                                     result = bool(result)
                                     if not bool(result):
@@ -196,9 +196,9 @@ class Downloader:
                                 # if we find the file itself but not the 'is_installed' checks, we must still install it
                                 if os.path.exists(website["file_name"]):
                                     if "installation_hint" in website.keys():
-                                        self.set_message("Please complete the " + website["file_name"]  + " executable install process. This window will automatically continue when the installer closes.\n\n" + website["installation_hint"])
+                                        self.set_message("Please complete the " + website["installer"]  + " executable install process. This window will automatically continue when the installer closes.\n\n" + website["installation_hint"])
                                     else:
-                                        self.set_message("Please complete the " + website["file_name"]  + " executable install process. This window will automatically continue when the installer closes.")
+                                        self.set_message("Please complete the " + website["installer"]  + " executable install process. This window will automatically continue when the installer closes.")
                                     if "installer" in website.keys():
                                         if not os.path.exists(website["installer"]):
                                             print("Couldn't find " + website["installer"] + "...")
@@ -215,7 +215,7 @@ class Downloader:
                             exit()
                 
                 os.startfile("alliance.exe")
-                self.set_message("Choose Palpatine Total Converter from the Game Launcher window to start.\nChoose Load a Total Conversion, and then:\n1. TFTC Classic for the original story, remastered\n2. TFTC Reimagined for 8+ new campaigns.\nEnjoy!\n\nStarting game, you can close this window...")
+                self.set_message("Choose Palpatine Total Converter from the Game Launcher window to start.\nChoose Load a Total Conversion, and then:\n1. TFTC Classic for the original story, remastered\n2. TFTC Reimagined for 8+ new campaigns.\nEnjoy!\n\nStarting game, press the 'Next' button twice to close this window...")
                 has_run = True
 
 

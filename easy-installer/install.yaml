@@ -39,6 +39,14 @@ ordered_downloads:
       check: 
         - after_install_file_or_dir: "TFTCversion.txt"
         - file_content: "1.3.2"
+  - website:
+      download_URL: "https://raw.github.com/JeremyAnsel/XwaHooksSetup/master/XwaHooksSetup/zip/XwaHooksSetup.zip"
+      file_name: "XwaHooksSetup.zip"
+      description: "Hooks to allow additional control over game assets and functions"
+      download_message: "Installing hooks to fix several game issues and increase stability. As a small example, Tie Bomber cockpits are less likely to experience bugs."
+      installer: "XwaHooksSetup.exe"
+      check: 
+        - after_install_file_or_dir: "Hooks"
   - website: 
       download_URL: "https://cdn.discordapp.com/attachments/861286195937411082/1033836045067890699/1b8m1tftc-R.tie"
       file_name: "1b8m1tftc-R.tie"
