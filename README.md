@@ -21,5 +21,5 @@ Run the tool by following the steps below:
 3. ```python easy-installer.py```
 
 ## Running the script as an exe
-If you'd like to run it as an executable file, you can install pysimplegui with `pip3 install pysimplegui` and then run:
+If you'd like to run it as an executable file, you can install pysimplegui with `pip install pysimplegui` and then run:
 `python -m pysimplegui-exemaker.pysimplegui-exemaker`
