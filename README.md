@@ -11,15 +11,19 @@ This tool makes installing TFTC easy! While we still recommend the most recent [
 5. Let you know you're ready to fly!
 
 ## How to run the tool!
-Steps to type in if you're unfamiliar with Python:
+### The easy way:
+1. Download `TFTC-Easy-Installer-Executable-v1.0.zip` from the Releases page
+2. Unzip it into your game folder (wherever alliance.exe is)
+3. Run the `easy-installer.exe` file and press next to go step by step through everything you need
 
-Have X-Wing Alliance installed from Steam, GOG, or Origin. Have Python installed.
+### The Python way:
+1. Have Python installed
+2. Run the tool by following the steps below:
+3. ```git clone https://github.com/plasticmacaroni/TFTC-Easy-Installer.git```
+4. ```pip install -r requirements.txt```
+5. ```python easy-installer.py```
+6. Follow the on-screen prompts to install step by step
 
-Run the tool by following the steps below:
-1. ```git clone https://github.com/plasticmacaroni/TFTC-Easy-Installer.git```
-2. ```pip install -r requirements.txt```
-3. ```python easy-installer.py```
-
-## Running the script as an exe
-If you'd like to run it as an executable file, you can install pysimplegui with `pip install pysimplegui` and then run:
-`python -m pysimplegui-exemaker.pysimplegui-exemaker`
+## Executable information
+The executable has been created (and can be recreated) by running `pip install pysimplegui` and then running
+`python -m pysimplegui-exemaker.pysimplegui-exemaker`.
