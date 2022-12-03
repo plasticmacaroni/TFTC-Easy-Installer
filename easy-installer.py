@@ -101,6 +101,7 @@ class Downloader:
                     ret_flag = sg.OneLineProgressMeter(local_filename + " download progress...", i+1, int(content_length),  'Download initiated.', 'Transferring data through hyper-relays.', grab_anywhere=True)
                     if ret_flag == False or sg.WIN_CLOSED:
                         self.set_message("Download cancelled. Press Next to restart download.")
+            sg.OneLineProgressMeter(local_filename + " download progress...", 999, 999) # call function with current == max value to instantly close
         return local_filename
 
     # this should somehow be definable per site in the install.yaml file, not in code
