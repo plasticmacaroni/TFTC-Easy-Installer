@@ -10,6 +10,7 @@ import zipfile_deflate64 as zipfile
 from ctypes import windll
 import yaml
 from bs4 import BeautifulSoup
+import sys
 
 class Downloader:
     def __init__(self, install_config):
@@ -23,20 +24,20 @@ class Downloader:
         # Config object
         self.install_config = install_config
         # Build window
-        sg.theme('DarkAmber')
+        # sg.theme('DarkAmber')
         self.main_message = "Press NEXT to get started"
         self.step = ""
         layout = [
-            [sg.Titlebar('TFTC Easy Installer', background_color="#2C2825", text_color="#FCCA54", icon="easy-installer/tie-fighter-icon.png")],
-            [sg.Image("easy-installer/TFTC.png", size=(150,150), expand_x=True)],
-            [sg.Text(self.step, size=(None, None), font='ANY 42', key="STEP", pad=(20, 30))], 
-            [sg.Text(self.main_message, size=(60, None), font = "ANY 20", key="MAIN_MESSAGE", pad=(40, 40))], 
+            #[sg.Titlebar('TFTC Easy Installer', background_color="#2C2825", text_color="#FCCA54", icon="easy-installer/tie-fighter-icon.png")],
+            [sg.Image("easy-installer/TFTC.png", size=(150,150), background_color="#020202", expand_x=True)],
+            [sg.Text(self.step, size=(None, None), font='ANY 42', text_color="#B49759", background_color="#020202", key="STEP", pad=(20, 30))], 
+            [sg.Text(self.main_message, size=(60, None), text_color="#B49759", background_color="#020202", font = "ANY 20", key="MAIN_MESSAGE", pad=(40, 40))], 
             [
-                sg.Button("NEXT", key="OK", font='ANY 20', size=(10, None))
+                sg.Button("NEXT", key="OK", font='ANY 20', size=(10, None), button_color=("#020202", "#B49759"))
             ]
         ]
         # Create the window
-        self.window = sg.Window("TFTC Easy Installer", default_element_size=(20, 1), layout=layout, element_justification='c', enable_close_attempted_event=True, no_titlebar=True)
+        self.window = sg.Window("TFTC Easy Installer", default_element_size=(20, 1), layout=layout, element_justification='c', background_color="#020202", icon="easy-installer/tie-fighter-icon.ico", enable_close_attempted_event=True)
         # Load install.yaml config
         with open('easy-installer/install.yaml', 'r') as file:
             install_config = yaml.safe_load(file)
@@ -52,9 +53,9 @@ class Downloader:
         #update the message
         self.window.Element("MAIN_MESSAGE").update(message)
         event, values = self.window.read()
-        if event in (sg.WIN_CLOSE_ATTEMPTED_EVENT, 'Exit', None):
+        if event in (sg.WIN_CLOSE_ATTEMPTED_EVENT, sg.WIN_CLOSED, 'Exit', None):
             print("quitting!") 
-            exit()
+            sys.exit()
 
     def check_size(self, url, local_file):
         url = self.convert_for_moddb(url)
@@ -176,7 +177,7 @@ class Downloader:
                                         self.download_file(website["download_URL"], website["file_name"])
                                     except Exception as exc:
                                         self.set_message('Encountered unknown error: '+ str(exc) + ' while trying to download ' + website["file_name"] + ". Press anything to exit.")
-                                        exit()
+                                        sys.exit()
                                 # Check the filesize to make sure the files are fully downloaded (large files, so partial downloads are a pain to troubleshoot)
                                 if self.install_config["ordered_downloads"][index]["website"]["size_checked"] == False:
                                     self.set_message("Checking file size for downloaded "+ website["file_name"] +", press NEXT to continue...")
@@ -202,17 +203,17 @@ class Downloader:
                                     if "installer" in website.keys():
                                         if not os.path.exists(website["installer"]):
                                             print("Couldn't find " + website["installer"] + "...")
-                                            exit()
+                                            sys.exit()
                                         sg.execute_command_subprocess(website["installer"], wait=True)
                                     else:
                                         if not os.path.exists(website["file_name"]):
                                             print("Couldn't find " + website["file_name"] + "...")
-                                            exit()
+                                            sys.exit()
                                         sg.execute_command_subprocess(website["file_name"], wait=True)
                         
                         else: 
                             print("YAML file was unreadable, found neither 'requirement' or 'website'...")
-                            exit()
+                            sys.exit()
                 
                 os.startfile("alliance.exe")
                 self.set_message("Choose Palpatine Total Converter from the Game Launcher window to start.\nChoose Load a Total Conversion, and then:\n1. TFTC Classic for the original story, remastered\n2. TFTC Reimagined for 8+ new campaigns.\nEnjoy!\n\nStarting game, press the 'Next' button twice to close this window...")
