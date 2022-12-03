@@ -25,19 +25,32 @@ class Downloader:
         self.install_config = install_config
         # Build window
         # sg.theme('DarkAmber')
+        sg.LOOK_AND_FEEL_TABLE['InstallerTheme'] = {'BACKGROUND': '#020202',
+            'TEXT': '#B49759',
+            'INPUT': '#B49759',
+            'TEXT_INPUT': '#000000',
+            'SCROLL': '#B49759',
+            'BUTTON': ('#020202', '#B49759'),
+            'PROGRESS': ('#020202', '#B49759'),
+            'BORDER': 1, 'SLIDER_DEPTH': 0,
+            'PROGRESS_DEPTH': 0, }
+
+        sg.theme("InstallerTheme")
+
         self.main_message = "Press NEXT to get started"
         self.step = ""
         layout = [
             #[sg.Titlebar('TFTC Easy Installer', background_color="#2C2825", text_color="#FCCA54", icon="easy-installer/tie-fighter-icon.png")],
-            [sg.Image("easy-installer/TFTC.png", size=(150,150), background_color="#020202", expand_x=True)],
-            [sg.Text(self.step, size=(None, None), font='ANY 42', text_color="#B49759", background_color="#020202", key="STEP", pad=(20, 30))], 
-            [sg.Text(self.main_message, size=(60, None), text_color="#B49759", background_color="#020202", font = "ANY 20", key="MAIN_MESSAGE", pad=(40, 40))], 
+            [sg.Image("easy-installer/TFTC.png", size=(150,150), expand_x=True)],
+            [sg.Text(self.step, size=(None, None), font='ANY 42', key="STEP", pad=(20, 30))], 
+            [sg.HorizontalSeparator()],
+            [sg.Text(self.main_message, size=(60, None), font = "ANY 20", key="MAIN_MESSAGE", pad=(40, 40))], 
             [
-                sg.Button("NEXT", key="OK", font='ANY 20', size=(10, None), button_color=("#020202", "#B49759"))
+                sg.Button("NEXT", key="OK", font='ANY 20', size=(10, None))
             ]
         ]
         # Create the window
-        self.window = sg.Window("TFTC Easy Installer", default_element_size=(20, 1), layout=layout, element_justification='c', background_color="#020202", icon="easy-installer/tie-fighter-icon.ico", enable_close_attempted_event=True)
+        self.window = sg.Window("TFTC Easy Installer", default_element_size=(20, 1), layout=layout, element_justification='c', icon="easy-installer/tie-fighter-icon.ico", enable_close_attempted_event=True)
         # Load install.yaml config
         with open('easy-installer/install.yaml', 'r') as file:
             install_config = yaml.safe_load(file)
@@ -71,6 +84,12 @@ class Downloader:
     def download_file(self, url, local_filename):
         url = self.convert_for_moddb(url)
         headers = {
+            "User-Agent": self.install_config["default_config"]["user_agent"],
+        }
+        content_length = requests.get(url, headers=headers, stream=True).headers['Content-length']
+        # start downloading, and use moddb workaround for relevant files
+        url = self.convert_for_moddb(url)
+        headers = {
             'User-Agent': self.install_config["default_config"]["user_agent"],
         }
         with requests.get(url, headers=headers, stream=True) as r:
@@ -78,6 +97,10 @@ class Downloader:
             with open(local_filename, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=8192): 
                     f.write(chunk)
+                    i = os.path.getsize(local_filename)
+                    ret_flag = sg.OneLineProgressMeter(local_filename + " download progress...", i+1, int(content_length),  'Download initiated.', 'Transferring data through hyper-relays.', grab_anywhere=True)
+                    if ret_flag == False or sg.WIN_CLOSED:
+                        self.set_message("Download cancelled. Press Next to restart download.")
         return local_filename
 
     # this should somehow be definable per site in the install.yaml file, not in code
@@ -184,6 +207,8 @@ class Downloader:
                                     result_bool = self.check_size(website["download_URL"], website["file_name"])
                                     if result_bool == False:
                                         os.remove(website["file_name"]) 
+                                        self.set_message("Removing faulty download, please restart installer to resume.")
+                                        exit()
                                     else: 
                                         self.install_config["ordered_downloads"][index]["website"]["size_checked"] = True
                                         self.set_message("Filesize match. Press NEXT to continue...")
