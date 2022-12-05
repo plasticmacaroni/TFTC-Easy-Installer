@@ -71,7 +71,7 @@ class Downloader:
             sys.exit()
 
     def check_size(self, url, local_file):
-        url = self.convert_for_moddb(url)
+        url = self.find_moddb_download(url)
         headers = {
             "User-Agent": self.install_config["default_config"]["user_agent"]
         }
@@ -82,39 +82,39 @@ class Downloader:
         return True
 
     def download_file(self, url, local_filename):
-        url = self.convert_for_moddb(url)
+        # first use moddb workaround for relevant files
+        url = self.find_moddb_download(url)
         headers = {
             "User-Agent": self.install_config["default_config"]["user_agent"],
         }
         content_length = requests.get(url, headers=headers, stream=True).headers['Content-length']
-        # start downloading, and use moddb workaround for relevant files
-        url = self.convert_for_moddb(url)
-        headers = {
-            'User-Agent': self.install_config["default_config"]["user_agent"],
-        }
         with requests.get(url, headers=headers, stream=True) as r:
             r.raise_for_status()
             with open(local_filename, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=8192): 
                     f.write(chunk)
                     i = os.path.getsize(local_filename)
-                    ret_flag = sg.OneLineProgressMeter(local_filename + " download progress...", i+1, int(content_length),  'Download initiated.', 'Transferring data through hyper-relays.', grab_anywhere=True)
+                    ret_flag = sg.OneLineProgressMeter(local_filename + " Download", i+1, int(content_length),  'Download initiated.', 'Transferring data through hyper-relays.', grab_anywhere=True)
                     if ret_flag == False or sg.WIN_CLOSED:
                         self.set_message("Download cancelled. Press Next to restart download.")
-            sg.OneLineProgressMeter(local_filename + " download progress...", 999, 999) # call function with current == max value to instantly close
+            sg.OneLineProgressMeter(local_filename + " download progress...", int(content_length), int(content_length)) # call function with current == max value to instantly close
         return local_filename
 
     # this should somehow be definable per site in the install.yaml file, not in code
-    def convert_for_moddb(self, url):
+    def find_moddb_download(self, url):
         if "moddb" in url:
-            page = requests.get(url)
-            soup = BeautifulSoup(page.content, "html.parser")
-            results = urllib.parse.urljoin("https://moddb.com", soup.find(id="downloadmirrorstoggle").attrs["href"])
-            page = requests.get(results)
-            soup = BeautifulSoup(page.content, "html.parser")
-            results = urllib.parse.urljoin("https://moddb.com", soup.find("a").attrs["href"])
-            url = results
-            return url
+            try:
+                page = requests.get(url)
+                soup = BeautifulSoup(page.content, "html.parser")
+                results = urllib.parse.urljoin("https://moddb.com", soup.find(id="downloadmirrorstoggle").attrs["href"])
+                page = requests.get(results)
+                soup = BeautifulSoup(page.content, "html.parser")
+                results = urllib.parse.urljoin("https://moddb.com", soup.find("a").attrs["href"])
+                url = results
+                return url
+            except Exception:
+                print(Exception)
+                exit()
         return url
 
     def run(self):
