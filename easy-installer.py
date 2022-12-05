@@ -114,7 +114,7 @@ class Downloader:
                 return url
             except Exception:
                 print(Exception)
-                exit()
+                sys.exit()
         return url
 
     def run(self):
